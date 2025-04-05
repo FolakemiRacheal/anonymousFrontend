@@ -247,7 +247,7 @@ const AnonymousSaver = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2450/api/v1/user/signUp",
+        "https://anonoymouscontactsaver.onrender.com/api/v1/user/signUp",
         { phoneNumber },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -263,7 +263,7 @@ const AnonymousSaver = () => {
     const userId = uniqueLink.split("/").pop();
     try {
       const response = await axios.get(
-        `http://localhost:2450/api/v1/user/getNames/${userId}`
+        `https://anonoymouscontactsaver.onrender.com/api/v1/user/getNames/${userId}`
       );
       setSubmissions(response.data.data);
       setShowSubmissions(true);

@@ -7,7 +7,7 @@ const GetNames = () => {
   const [names, setNames] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:2450/api/v1/user/getNames/${userId}`)
+    axios.get(`https://anonoymouscontactsaver.onrender.com/api/v1/user/getNames/${userId}`)
       .then(res => setNames(res.data.data))
       .catch(err => console.error(err));
   }, [userId]);

@@ -102,7 +102,7 @@ const SaveName = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:2450/api/v1/user/saveName/${userId}`, { savedName });
+      await axios.post(`https://anonoymouscontactsaver.onrender.com/api/v1/user/saveName/${userId}`, { savedName });
       alert('Name submitted anonymously!');
       setSavedName(''); // Clear the input after submission
     } catch (err) {

@@ -7,7 +7,7 @@ const ContactDetails = () => {
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:2450/api/v1/user/getSavedContactWithUser/${id}`)
+    axios.get(`https://anonoymouscontactsaver.onrender.com/api/v1/user/getSavedContactWithUser/${id}`)
       .then(res => setContact(res.data.data))
       .catch(err => console.error(err));
   }, [id]);
