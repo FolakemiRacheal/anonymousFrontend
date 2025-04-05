@@ -252,7 +252,7 @@ const AnonymousSaver = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      const frontendLink = `http://localhost:3000/save-name/${response.data.data._id}`;
+      const frontendLink = `https://anonoymouscontactsaver.vercel.app/save-name/${response.data.data._id}`;
       setUniqueLink(frontendLink);
     } catch (error) {
       alert("Failed to generate link. Please try again.");
