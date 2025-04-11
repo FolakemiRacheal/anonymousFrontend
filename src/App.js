@@ -36,7 +36,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<AnonymousSaver />} />
-        <Route path="/save-name/:userId" component={SaveName} />
+        <Route path="/save-name/:userId" element={<SaveName />} />
         <Route path="/all-users" element={<AllUsers />} />
         <Route path="/get-names" element={<GetNames />} />
         <Route path="/contact-details" element={<ContactDetails />} />
