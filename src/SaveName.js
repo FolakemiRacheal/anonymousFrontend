@@ -108,8 +108,7 @@
 
 
 
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -168,43 +167,29 @@ const styles = {
 };
 
 const SaveName = () => {
-  const { userId } = useParams(); // Get userId from the URL params
-  const [savedName, setSavedName] = useState(''); // To store the name user saves for the contact
-  const [loading, setLoading] = useState(false); // For loading state
-  const [error, setError] = useState(''); // To store any error messages
+  const { userId } = useParams();  // Extract userId from the URL
+  const [savedName, setSavedName] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // If the saved name is empty, show an alert
     if (!savedName.trim()) {
-      setError('Please enter a valid name.');
+      alert("Please enter a name.");
       return;
     }
-  
-    setLoading(true); // Set loading to true while waiting for the response
+
     try {
-      // Post the saved name to the backend using the userId
-      await axios.post(
-        `https://anonoymouscontactsaver.onrender.com/api/v1/user/saveName/${userId}`,
-        { savedName },
-        { headers: { "Content-Type": "application/json" } }
-      );
-  
-      // If successful, show alert and clear the input
+      // Send POST request to save the name with the userId
+      await axios.post(`https://anonoymouscontactsaver.onrender.com/api/v1/user/saveName/${userId}`, { savedName });
+
       alert('Name submitted anonymously!');
-      setSavedName('');
-      setError('');
+      setSavedName(''); // Clear the input after submission
     } catch (err) {
-      console.error('Error submitting name:', err); // Log the error for debugging
-      setError(err.response?.data?.message || 'Submission failed, please try again.'); // Set error message
-    } finally {
-      setLoading(false); // Set loading to false once the API call completes
+      console.error('Error submitting name:', err); // Log the full error to console for more details
+      alert(err.response?.data?.message || 'Submission failed');
     }
   };
-  
-
-  useEffect(() => {
-    // Optional: You can fetch additional user data or handle any pre-submit actions here.
-  }, []);
 
   return (
     <div style={styles.container}>
@@ -226,13 +211,10 @@ const SaveName = () => {
             style={styles.button}
             onMouseOver={(e) => (e.target.style.backgroundColor = '#005f87')}
             onMouseOut={(e) => (e.target.style.backgroundColor = '#007bb6')}
-            disabled={loading} // Disable button while loading
           >
-            {loading ? 'Submitting...' : 'Submit'}
+            Submit
           </button>
         </form>
-
-        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
       </div>
     </div>
   );
