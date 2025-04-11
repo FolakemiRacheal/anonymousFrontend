@@ -252,9 +252,10 @@ const AnonymousSaver = () => {
         { headers: { "Content-Type": "application/json" } }
       );
   
-      // Correct the URL by ensuring the protocol and format
-      const userId = response.data.data.uniqueLink; // Ensure userId is extracted properly
+      const backendLink = response.data.data.uniqueLink;
+      const userId = backendLink.split('/').pop(); // extract only the ID
       const frontendLink = `https://anonoymouscontactsaver.vercel.app/save-name/${userId}`;
+      
   
       // Set the unique link
       setUniqueLink(frontendLink);
