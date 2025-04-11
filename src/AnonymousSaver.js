@@ -155,7 +155,8 @@
 
 
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const styles = {
@@ -228,11 +229,141 @@ const styles = {
   },
 };
 
+// const AnonymousSaver = () => {
+//   const [phoneNumber, setPhoneNumber] = useState("");
+//   const [uniqueLink, setUniqueLink] = useState("");
+//   const [submissions, setSubmissions] = useState([]);
+//   const [showSubmissions, setShowSubmissions] = useState(false);
+
+//   const validateNigerianPhoneNumber = (number) => {
+//     const cleaned = number.replace(/\D/g, "");
+//     return /^0\d{10}$/.test(cleaned);
+//   };
+
+//   const handleSubmit = async () => {
+//     if (!validateNigerianPhoneNumber(phoneNumber)) {
+//       alert("Please enter a valid Nigerian phone number (11 digits starting with 0)");
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.post(
+//         "https://anonoymouscontactsaver.onrender.com/api/v1/user/signUp",
+//         { phoneNumber },
+//         { headers: { "Content-Type": "application/json" } }
+//       );
+
+//       const frontendLink = `https://anonoymouscontactsaver.vercel.app/save-name/${response.data.data._id}`;
+//       setUniqueLink(frontendLink);
+//     } catch (error) {
+//       alert("Failed to generate link. Please try again.");
+//     }
+//   };
+
+//   const handleViewSubmissions = async () => {
+//     const userId = uniqueLink.split("/").pop();
+//     try {
+//       const response = await axios.get(
+//         `https://anonoymouscontactsaver.onrender.com/api/v1/user/getNames/${userId}`
+//       );
+//       setSubmissions(response.data.data);
+//       setShowSubmissions(true);
+//     } catch (error) {
+//       alert("Error fetching submissions.");
+//     }
+//   };
+
+//   return (
+//     <div style={styles.container}>
+//       <h1 style={styles.heading}>Curious how people saved your contact? 🤔</h1>
+//       <p style={styles.subHeading}>
+//         Enter your phone number and generate your anonymous link
+//       </p>
+
+//       <input
+//         type="text"
+//         placeholder="Enter your phone number"
+//         value={phoneNumber}
+//         onChange={(e) => setPhoneNumber(e.target.value)}
+//         style={{
+//           ...styles.input,
+//           ...(phoneNumber.trim() && styles.inputFocus),
+//         }}
+//       />
+
+//       <button
+//         onClick={handleSubmit}
+//         style={styles.button}
+//         onMouseOver={(e) => (e.target.style.backgroundColor = "#005f87")}
+//         onMouseOut={(e) => (e.target.style.backgroundColor = "#007bb6")}
+//       >
+//         Generate Link
+//       </button>
+
+//       {uniqueLink && (
+//         <>
+//           <div style={styles.resultBox}>
+//             <p style={styles.resultText}>Your unique link:</p>
+//             <a
+//               href={uniqueLink}
+//               target="_blank"
+//               rel="noopener noreferrer"
+//               style={styles.resultLink}
+//             >
+//               {uniqueLink}
+//             </a>
+//           </div>
+
+//           <button
+//             onClick={handleViewSubmissions}
+//             style={{ ...styles.button, marginTop: "15px" }}
+//             onMouseOver={(e) => (e.target.style.backgroundColor = "#005f87")}
+//             onMouseOut={(e) => (e.target.style.backgroundColor = "#007bb6")}
+//           >
+//             View Submissions
+//           </button>
+//         </>
+//       )}
+
+//       {showSubmissions && (
+//         <div style={styles.resultBox}>
+//           <h3 style={styles.resultText}>People saved you as:</h3>
+//           {submissions.length > 0 ? (
+//             submissions.map((item, idx) => (
+//               <p key={idx} style={{ margin: "5px 0", color: "#333" }}>
+//                 • {item.savedName}
+//               </p>
+//             ))
+//           ) : (
+//             <p style={{ color: "#999" }}>No submissions yet.</p>
+//           )}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AnonymousSaver;
+
+
+
+
+
+
+
+
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+
 const AnonymousSaver = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [uniqueLink, setUniqueLink] = useState("");
   const [submissions, setSubmissions] = useState([]);
   const [showSubmissions, setShowSubmissions] = useState(false);
+
+  // ✅ NEW STATE for most common name
+  const [mostCommon, setMostCommon] = useState(null);
+  const [count, setCount] = useState(0);
 
   const validateNigerianPhoneNumber = (number) => {
     const cleaned = number.replace(/\D/g, "");
@@ -271,6 +402,20 @@ const AnonymousSaver = () => {
       alert("Error fetching submissions.");
     }
   };
+
+  // 📡 ✅ FETCHING MOST COMMON NAME (API called here)
+  useEffect(() => {
+    const userId = uniqueLink?.split("/").pop();
+    if (!userId) return;
+
+    fetch(`https://anonoymouscontactsaver.onrender.com/api/v1/user/getSubmittedData/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        setMostCommon(data.mostCommonName);
+        setCount(data.count);
+      })
+      .catch((err) => console.error("Failed to fetch most common name:", err));
+  }, [uniqueLink]);
 
   return (
     <div style={styles.container}>
@@ -328,14 +473,38 @@ const AnonymousSaver = () => {
         <div style={styles.resultBox}>
           <h3 style={styles.resultText}>People saved you as:</h3>
           {submissions.length > 0 ? (
-            submissions.map((item, idx) => (
-              <p key={idx} style={{ margin: "5px 0", color: "#333" }}>
-                • {item.savedName}
-              </p>
-            ))
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
+              {submissions.map((item, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    backgroundColor: "#007bb6",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    borderRadius: "20px",
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    width: "fit-content",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  {item.savedName}
+                </span>
+              ))}
+            </div>
           ) : (
             <p style={{ color: "#999" }}>No submissions yet.</p>
           )}
+        </div>
+      )}
+
+      {/* ✅ DISPLAY MOST COMMON NAME HERE */}
+      {mostCommon && (
+        <div style={styles.resultBox}>
+          <h3 style={styles.resultText}>Most Common Name:</h3>
+          <p style={{ fontWeight: "bold", color: "#007bb6" }}>
+            {mostCommon} ({count} {count === 1 ? "time" : "times"})
+          </p>
         </div>
       )}
     </div>
@@ -343,4 +512,3 @@ const AnonymousSaver = () => {
 };
 
 export default AnonymousSaver;
-
