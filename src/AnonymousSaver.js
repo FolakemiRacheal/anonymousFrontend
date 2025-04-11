@@ -251,14 +251,17 @@ const AnonymousSaver = () => {
         { phoneNumber },
         { headers: { "Content-Type": "application/json" } }
       );
-
-      const frontendLink = `https://anonoymouscontactsaver.vercel.app/save-name/${response.data.data._id}`;
+  
+      // Correct the URL by ensuring the protocol and format
+      const userId = response.data.data.uniqueLink; // Ensure userId is extracted properly
+      const frontendLink = `https://anonoymouscontactsaver.vercel.app/save-name/${userId}`;
+  
+      // Set the unique link
       setUniqueLink(frontendLink);
     } catch (error) {
       alert("Failed to generate link. Please try again.");
     }
   };
-
   const handleViewSubmissions = async () => {
     const userId = uniqueLink.split("/").pop();
     try {
