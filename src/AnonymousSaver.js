@@ -196,7 +196,7 @@ const styles = {
             onMouseOver={(e) => (e.target.style.backgroundColor = "#005f87")}
             onMouseOut={(e) => (e.target.style.backgroundColor = "#007bb6")}
           >
-            View Most Common Name
+            You’re Mostly Saved As 😎
           </button>
         </>
       )}
