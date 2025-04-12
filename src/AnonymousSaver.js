@@ -237,7 +237,6 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import FeedbackLink from "./FeedbackLink"; // Import the FeedbackLink component
 
 const AnonymousSaver = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -436,7 +435,7 @@ const AnonymousSaver = () => {
           </button>
 
           {/* ✅ FEEDBACK FORM LINK */}
-          <FeedbackLink />
+         
         </>
       )}
 
