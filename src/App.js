@@ -37,11 +37,6 @@ function App() {
     <Router>
 
 <div>
-        {/* Global Header */}
-        <header style={{ backgroundColor: '#f1f8fc', padding: '10px', textAlign: 'center' }}>
-          {/* Show the feedback link globally */}
-          <FeedbackLink />
-        </header>
       <Routes>
         <Route path="/" element={<AnonymousSaver />} />
         <Route path="/save-name/:userId" element={<SaveName />} />
@@ -50,7 +45,7 @@ function App() {
         <Route path="/contact-details" element={<ContactDetails />} />
       </Routes>
       {/* Global Footer */}
-      <footer style={{ backgroundColor: '#f1f8fc', padding: '10px', textAlign: 'center' }}>
+      <footer style={{ backgroundColor: '#f1f8fc', padding: '10px', textAlign: 'center', fontWeight:"bold" }}>
           <FeedbackLink />
         </footer>
       </div>
