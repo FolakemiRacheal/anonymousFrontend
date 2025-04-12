@@ -122,7 +122,7 @@ const styles = {
       setSubmissions(response.data.data);
       setShowSubmissions(true);
     } catch (error) {
-      alert("Error fetching submissions.");
+      alert("Error fetching submissions, No Name Submitted Yet");
     }
   };
 
