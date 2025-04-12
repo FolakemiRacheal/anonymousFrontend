@@ -30,10 +30,18 @@ import SaveName from './SaveName';
 import AllUsers from './AllUsers';
 import GetNames from './GetNames';
 import ContactDetails from './ContactDetails';
+import FeedbackLink from "./FeedbackLink";
 
 function App() {
   return (
     <Router>
+
+<div>
+        {/* Global Header */}
+        <header style={{ backgroundColor: '#f1f8fc', padding: '10px', textAlign: 'center' }}>
+          {/* Show the feedback link globally */}
+          <FeedbackLink />
+        </header>
       <Routes>
         <Route path="/" element={<AnonymousSaver />} />
         <Route path="/save-name/:userId" element={<SaveName />} />
@@ -41,6 +49,11 @@ function App() {
         <Route path="/get-names" element={<GetNames />} />
         <Route path="/contact-details" element={<ContactDetails />} />
       </Routes>
+      {/* Global Footer */}
+      <footer style={{ backgroundColor: '#f1f8fc', padding: '10px', textAlign: 'center' }}>
+          <FeedbackLink />
+        </footer>
+      </div>
     </Router>
   );
 
