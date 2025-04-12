@@ -116,6 +116,32 @@ const SaveName = () => {
       </div>
     </div>
   );
+
+
+
+
+  const formLink = "https://docs.google.com/forms/d/1E4zh294VmrIYZbRvAUlyZMy5GMGDIPrpmzVmFdOmOz0/edit"; // Replace with your actual Google Form link
+
+  return (
+    <div>
+      <h1>Welcome to the Anonymous Name Saver</h1>
+      {/* Your existing form or content */}
+      
+      {/* Link to Google Form */}
+      <a href={formLink} target="_blank" rel="noopener noreferrer">
+        Give us your feedback!
+      </a>
+    </div>
+  );
+
 };
 
+
+
+
+
+
+
 export default SaveName;
+
+
